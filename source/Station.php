@@ -171,116 +171,163 @@ class Station {
       return $result;  
     }
     
+    function setArrayData($stationArrayData){
+        
+        $data;
+        foreach ($stationArrayData as $row) {
+            foreach ($row as $dataArray) {
+                $data = $dataArray;
+            }
+        }
+        return $data;
+    }
+    
     function getStationTable() {
         return $this->stationTable;
     }
     
     function getStationId() {
         
+        $stationId;
         $this->stationTable[self::COLUMN_ID] = $this->selectData(self::COLUMN_ID);
-        return $this->stationTable[self::COLUMN_ID];
+        $stationId = $this->setArrayData($this->stationTable[self::COLUMN_ID]);
+        return $stationId;
     }
    
     function getStationLatitude() {
         
+        $stationLatitude;
         $this->stationTable[self::COLUMN_STATIONLATITUDE] = $this->selectData(self::COLUMN_STATIONLATITUDE);
-        return $this->stationTable[self::COLUMN_STATIONLATITUDE];
+        $stationLatitude = $this->setArrayData($this->stationTable[self::COLUMN_STATIONLATITUDE]);
+        return $stationLatitude;
     }
     
     function getStationLongitude() {
         
+        $stationLongitude;
         $this->stationTable[self::COLUMN_STATIONLONGITUDE] = $this->selectData(self::COLUMN_STATIONLONGITUDE);
-        return $this->stationTable[self::COLUMN_STATIONLONGITUDE];
+        $stationLongitude = $this->setArrayData($this->stationTable[self::COLUMN_STATIONLONGITUDE]);
+        return $stationLongitude;
     }
 
     function getStationName() {
         
+        $stationName;
         $this->stationTable[self::COLUMN_STATIONNAME] = $this->selectData(self::COLUMN_STATIONNAME);
-        return $this->stationTable[self::COLUMN_STATIONNAME];
+        $stationName = $this->setArrayData($this->stationTable[self::COLUMN_STATIONNAME]);
+        return $stationName;
     }
 
     function getStationDescription() {
         
+        $stationDescription;
         $this->stationTable[self::COLUMN_STATIONDESCRIPTION] = $this->selectData(self::COLUMN_STATIONDESCRIPTION);
-        return $this->stationTable[self::COLUMN_STATIONDESCRIPTION];
+        $stationDescription = $this->setArrayData($this->stationTable[self::COLUMN_STATIONDESCRIPTION]);
+        return $stationDescription;
     }
 
     function getStationType() {
         
+        $stationType;
         $this->stationTable[self::COLUMN_STATIONTYPE] = $this->selectData(self::COLUMN_STATIONTYPE);
-        return $this->stationTable[self::COLUMN_STATIONTYPE];
+        $stationType = $this->setArrayData($this->stationTable[self::COLUMN_STATIONTYPE]);
+        return $stationType;
     }
 
     function getStationLandline() {
         
+        $stationLandline;
         $this->stationTable[self::COLUMN_STATIONLANDLINE] = $this->selectData(self::COLUMN_STATIONLANDLINE);
-        return $this->stationTable[self::COLUMN_STATIONLANDLINE];
+        $stationLandline = $this->setArrayData($this->stationTable[self::COLUMN_STATIONLANDLINE]);
+        return $stationLandline;
     }
 
     function getStationMobile() {
         
+        $stationMobile;
         $this->stationTable[self::COLUMN_STATIONMOBILE] = $this->selectData(self::COLUMN_STATIONMOBILE);
-        return $this->stationTable[self::COLUMN_STATIONMOBILE];
+        $stationMobile = $this->setArrayData($this->stationTable[self::COLUMN_STATIONMOBILE]);
+        return $stationMobile;
     }
 
     function getStationAddress() {
         
+        $stationAddress;
         $this->stationTable[self::COLUMN_STATIONADDRESS] = $this->selectData(self::COLUMN_STATIONADDRESS);
-        return $this->stationTable[self::COLUMN_STATIONADDRESS];
+        $stationAddress = $this->setArrayData($this->stationTable[self::COLUMN_STATIONADDRESS]);
+        return $stationAddress;
     }
 
     function getStationEmail() {
         
+        $stationEmail;
         $this->stationTable[self::COLUMN_STATIONEMAIL] = $this->selectData(self::COLUMN_STATIONEMAIL);
-        return $this->stationTable[self::COLUMN_STATIONEMAIL];
+        $stationEmail = $this->setArrayData($this->stationTable[self::COLUMN_STATIONEMAIL]);
+        return $stationEmail;
     }
 
     function getStationPay() {
         
+        $stationPay;
         $this->stationTable[self::COLUMN_STATIONPAY] = $this->selectData(self::COLUMN_STATIONPAY);
-        return $this->stationTable[self::COLUMN_STATIONPAY];
+        $stationPay = $this->setArrayData($this->stationTable[self::COLUMN_STATIONPAY]);
+        return $stationPay;
     }
 
     function getStationState() {
         
+        $stationState;
         $this->stationTable[self::COLUMN_STATIONSTATE] = $this->selectData(self::COLUMN_STATIONSTATE);
-        return $this->stationTable[self::COLUMN_STATIONSTATE];
+        $stationState = $this->setArrayData($this->stationTable[self::COLUMN_STATIONSTATE]);
+        return $stationState;
     }
 
     function getStationDateTime() {
         
+        $stationDateTime;
         $this->stationTable[self::COLUMN_STATIONDATETIME] = $this->selectData(self::COLUMN_STATIONDATETIME);
-        return $this->stationTable[self::COLUMN_STATIONDATETIME];
+        $stationDateTime = $this->setArrayData($this->stationTable[self::COLUMN_STATIONDATETIME]);
+        return $stationDateTime;
     }
 
     function getStationSupplierId() {
         
+        $stationSupplier;
         $this->stationTable[self::COLUMN_STATIONSUPPLIERID] = $this->selectData(self::COLUMN_STATIONSUPPLIERID);
-        return $this->stationTable[self::COLUMN_STATIONSUPPLIERID];
+        $stationSupplier = $this->setArrayData($this->stationTable[self::COLUMN_STATIONSUPPLIERID]);
+        return $stationSupplier;
     }
 
     function getStationRegionId() {
         
+        $stationRegionId;
         $this->stationTable[self::COLUMN_STATIONREGIONID] = $this->selectData(self::COLUMN_STATIONREGIONID);
-        return $this->stationTable[self::COLUMN_STATIONREGIONID];
+        $stationRegionId = $this->setArrayData($this->stationTable[self::COLUMN_STATIONREGIONID]);
+        return $stationRegionId;
     }
 
     function getStationBranchId() {
         
+        $stationBranchId;
         $this->stationTable[self::COLUMN_STATIONBRANCHID] = $this->selectData(self::COLUMN_STATIONBRANCHID);
-        return $this->stationTable[self::COLUMN_STATIONBRANCHID];
+        $stationBranchId = $this->setArrayData($this->stationTable[self::COLUMN_STATIONBRANCHID]);
+        return $stationBranchId;
     }
 
     function getStationTradeGroupId() {
         
+        $stationTradeGroupId;
         $this->stationTable[self::COLUMN_STATIONTRADEGROUP] = $this->selectData(self::COLUMN_STATIONTRADEGROUP);
-        return $this->stationTable[self::COLUMN_STATIONTRADEGROUP];
+        $stationTradeGroupId = $this->setArrayData($this->stationTable[self::COLUMN_STATIONTRADEGROUP]);
+        return $stationTradeGroupId;
     }
 
     function getStationUserId() {
         
+        $stationUserId;
         $this->stationTable[self::COLUMN_STATIONUSERID] = $this->selectData(self::COLUMN_STATIONUSERID);
-        return $this->stationTable[self::COLUMN_STATIONUSERID];
+        $stationUserId = $this->setArrayData($this->stationTable[self::COLUMN_STATIONUSERID]);
+        return $stationUserId;
     }
 
     function setStationName($stationNameValue) {
@@ -340,3 +387,4 @@ class Station {
     }
     
 }
+
