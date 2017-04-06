@@ -11,6 +11,7 @@ class Product {
     const COLUMN_PRODUCTSTATE = "estado_estacion_has_producto";
     
     private $databaseInfo = array();
+
     
     private $productTable = array(
         self::COLUMN_ID => '',
@@ -43,6 +44,7 @@ class Product {
         $resultQuery = $databaseManager->selectmySQL($this->databaseInfo, $tableNames, $columnNames, $this->whereCriterion);
         
         $this->setData($resultQuery);
+
            
     }
     

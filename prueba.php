@@ -10,18 +10,26 @@ $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root',
 
 $station = new Station($bd,5004);
 
-$nombreestacion = 
-$lat = 
+$extra = new Product($bd,200,5004); 
+
+$nombreestacion = $station->getStationName();
 
 
-$tabla = $station->getStationTable();
-foreach ($tabla as $row => $data) {
-	
-		echo $data;
-	
-}
+echo $station->getStationName().'<br>';
+echo $station->getStationId().'<br>';
+echo $station->getStationLatitude().'<br>';
+echo $station->getStationLongitude().'<br>';
+echo $station->getStationType().'<br>';
+echo $station->getStationPay().'<br>';
+echo $station->getStationState().'<br>';
+echo $station->getStationUserId().'<br>';
+echo $station->getStationDescription().'<br>';
+echo $station->getStationRegionId().'<br>';
 
-$nombre = array();
+
+
+
+
 
 
 
