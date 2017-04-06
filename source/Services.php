@@ -2,158 +2,99 @@
 
 include_once 'mySQL.php';
 
-class Product {
+class Services {
     
-    const TABLE = "estacion_has_producto";
-    const COLUMN_ID = "producto_id_producto";
+    const TABLE = "servicio_has_estacion";
+    const COLUMN_ID = "servicio_id_servicio";
     const COLUMN_STATIONID = "estacion_id_estacion";
-    const COLUMN_PRODUCTPRICE = "precio_estacion_has_producto";
-    const COLUMN_PRODUCTSTATE = "estado_estacion_has_producto";
+    const COLUMN_DESCRIPTIONSERVICE = "descripcion_servicio_has_estacion";
+    const COLUMN_STATIONSUPPLIERID = "estacion_mayorista_id_mayorista";
+    const COLUMN_STATIONREGIONID = "estacion_departamento_id_departamento";
     
     private $databaseInfo = array();
     
-    private $productTable = array(
-        self::COLUMN_ID => '',
-        self::COLUMN_PRODUCTPRICE => '',
-        self::COLUMN_PRODUCTSTATE => '',
+    private $servicesList = array();
+    
+    private $stationId;
+    private $stationSupplierId;
+    private $stationRegionId;
+    
+    private $whereCriterionGeneral = array(
+        self::COLUMN_STATIONID,
+        ''
     );
     
-    private $whereCriterion = array(
+    private $whereCriterionOverride = array(
         self::COLUMN_ID,
         '',
         self::COLUMN_STATIONID,
         ''
     );
     
-    function __construct($databaseInfo, $id, $stationId) {
+    function __construct($databaseInfo, $stationId, $stationSupplierId, $stationRegionId) {
         
         $this->databaseInfo = $databaseInfo;
-        $this->whereCriterion[1] = $id;
-        $this->whereCriterion[3] = $stationId;
-       
+        
+        $this->stationId = $stationId;
+        $this->whereCriterionGeneral[1] = $stationId;
+        $this->whereCriterionOverride[3] = $stationId;
+        $this->stationSupplierId = $stationSupplierId;
+        $this->stationRegionId = $stationRegionId;
+        
+        $this->updateServicesList();
+    }
+
+    function getServicesList() {
+        return $this->servicesList;
+    }
+
+    function updateServicesList(){
+        
         $tableNames = array(self::TABLE);
         $columnNames = array(
             self::COLUMN_ID,
-            self::COLUMN_PRODUCTPRICE,
-            self::COLUMN_PRODUCTSTATE
+            self::COLUMN_DESCRIPTIONSERVICE      
         );
         
         $databaseManager = new mySQL;
         
-        $resultQuery = $databaseManager->selectmySQL($this->databaseInfo, $tableNames, $columnNames, $this->whereCriterion);
-        
-        $this->setData($resultQuery);
-           
+        $resultQuery = $databaseManager->selectmySQL($this->databaseInfo, $tableNames, $columnNames, $this->whereCriterionGeneral);
+        $this->servicesList = $resultQuery;
     }
     
-    function setData($resultArrayQuery){
+    function addService($serviceId, $serviceDescription){
         
-        foreach ($resultArrayQuery as $row) {
-            $indexColumn = 0;
-            foreach ($row as $column) {
-                if($indexColumn == 0){
-                    $this->stationTable[self::COLUMN_ID] = $column;
-                }
-                if($indexColumn == 1){
-                    $this->stationTable[self::COLUMN_PRODUCTPRICE] = $column;
-                }
-                if($indexColumn == 2){
-                    $this->stationTable[self::COLUMN_PRODUCTSTATE] = $column;
-                }
-                $indexColumn++;
-            }
-        }  
-    }
-    
-    function updateData($columnValue, $columnName) {
-     
+        $tableName = self::TABLE;
+        $columnNames = array(
+            self::COLUMN_ID,
+            self::COLUMN_STATIONID,
+            self::COLUMN_DESCRIPTIONSERVICE,
+            self::COLUMN_STATIONSUPPLIERID,
+            self::COLUMN_STATIONREGIONID
+        );
+        
+        $values = array(
+            $serviceId,
+            $this->stationId,
+            '"'.$serviceDescription.'"',
+            $this->stationSupplierId,
+            '"'.$this->stationRegionId.'"'
+        );
+        
         $databaseManager = new mySQL;
         
-        $columnValues = array();
-        
-        if($columnValue == "NULL"){
-            $columnValues = array(
-                $columnName,
-                $columnValue
-            );   
-        } else {
-            $columnValues = array(
-                $columnName,
-                '"'.$columnValue.'"'
-            );
-        }
-        
-        $resultQuery = $databaseManager->updatemySQL($this->databaseInfo, self::TABLE, $columnValues, $this->whereCriterion);
-        
-        if($resultQuery){
-            $this->stationTable[$columnName] = $columnValue;
-            return true;
-        }else{
-            return false;
-        } 
+        $resultQuery = $databaseManager->insertmySQL($this->databaseInfo, $tableName, $columnNames, $values);
+        return $resultQuery;
     }
     
-    function setArrayData($stationArrayData){
+    function deleteService($serviceId){
         
-        $data;
-        foreach ($stationArrayData as $row) {
-            foreach ($row as $dataArray) {
-                $data = $dataArray;
-            }
-        }
-        return $data;
-    }
-    
-    function selectData($columnName){
-      
-      $databaseManager = new mySQL;  
-      
-      $columns = array($columnName);
-      $tableName = array(self::TABLE);
-      $result = $databaseManager->selectmySQL($this->databaseInfo, $tableName, $columns, $this->whereCriterion);
-      return $result;  
-    }
-    
-    function getProductTable() {
-        return $this->productTable;
-    }
-
-    function getProductId(){
+        $databaseManager = new mySQL;
         
-        $productId;
-        $this->productTable[self::COLUMN_ID] = $this->selectData(self::COLUMN_ID);
-        $productId = $this->setArrayData($this->stationTable[self::COLUMN_ID]);
-        return $productId;
-    }
-    
-    function getProductPrice(){
+        $this->whereCriterionOverride[1] = $serviceId;
         
-        $productPrice;
-        $this->productTable[self::COLUMN_PRODUCTPRICE] = $this->selectData(self::COLUMN_PRODUCTPRICE);
-        $productPrice = $this->setArrayData($this->stationTable[self::COLUMN_PRODUCTPRICE]);
-        return $productPrice;
-    }
-
-    function getProductState(){
-        
-        $productState;
-        $this->productTable[self::COLUMN_PRODUCTSTATE] = $this->selectData(self::COLUMN_PRODUCTSTATE);
-        $productState = $this->setArrayData($this->stationTable[self::COLUMN_PRODUCTSTATE]);
-        return $productState;
-    }
-    
-    function setProductPrice($ProductPriceValue) {
-        
-       $result = $this->updateData($ProductPriceValue, self::COLUMN_PRODUCTPRICE);
-       return $result;
-       
-    }
-    
-    function setProductState($ProductStateValue) {
-        
-       $result = $this->updateData($ProductStateValue, self::COLUMN_PRODUCTSTATE);
-       return $result;
-       
+        $resultQuery = $databaseManager->deletemySQL($this->databaseInfo, self::TABLE, $this->whereCriterionOverride);
+        return $resultQuery;
     }
     
 }
