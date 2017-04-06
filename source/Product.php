@@ -93,6 +93,17 @@ class Product {
         } 
     }
     
+    function setArrayData($stationArrayData){
+        
+        $data;
+        foreach ($stationArrayData as $row) {
+            foreach ($row as $dataArray) {
+                $data = $dataArray;
+            }
+        }
+        return $data;
+    }
+    
     function selectData($columnName){
       
       $databaseManager = new mySQL;  
@@ -109,20 +120,26 @@ class Product {
 
     function getProductId(){
         
+        $productId;
         $this->productTable[self::COLUMN_ID] = $this->selectData(self::COLUMN_ID);
-        return $this->productTable[self::COLUMN_ID];
+        $productId = $this->setArrayData($this->stationTable[self::COLUMN_ID]);
+        return $productId;
     }
     
     function getProductPrice(){
         
+        $productPrice;
         $this->productTable[self::COLUMN_PRODUCTPRICE] = $this->selectData(self::COLUMN_PRODUCTPRICE);
-        return $this->productTable[self::COLUMN_PRODUCTPRICE];
+        $productPrice = $this->setArrayData($this->stationTable[self::COLUMN_PRODUCTPRICE]);
+        return $productPrice;
     }
 
     function getProductState(){
         
+        $productState;
         $this->productTable[self::COLUMN_PRODUCTSTATE] = $this->selectData(self::COLUMN_PRODUCTSTATE);
-        return $this->productTable[self::COLUMN_PRODUCTSTATE];
+        $productState = $this->setArrayData($this->stationTable[self::COLUMN_PRODUCTSTATE]);
+        return $productState;
     }
     
     function setProductPrice($ProductPriceValue) {
