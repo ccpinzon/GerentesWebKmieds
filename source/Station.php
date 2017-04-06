@@ -24,7 +24,17 @@ class Station {
     const COLUMN_STATIONTRADEGROUP ="sucursal_gremio_id_gremio";
     const COLUMN_STATIONUSERID = "usuario_id_usuario";
     
+    const REGIONTABLE = "departamento";
+    const COLUMN_REGIONTABLEID = "id_departamento";
+    const COLUMN_REGIONTABLENAME = "nombre_departamento";
+    
+    const SUPPLIERTABLE = "mayorista";
+    const COLUMN_SUPPLIERTABLEID = "id_mayorista";
+    const COLUMN_SUPPLIERTABLEBRAND = "marca_mayorista";
+
     private $databaseInfo = array();
+    
+    private $id;
     
     private $stationTable = array(
         self::COLUMN_ID => '',
@@ -56,7 +66,8 @@ class Station {
         
         $this->databaseInfo = $databaseInfo;
         $this->whereCriterion[1] = $id;
-       
+        $this->id = $id;
+        
         $tableNames = array(self::TABLE);
         $columnNames = array("*");
         
@@ -65,7 +76,6 @@ class Station {
         $resultQuery = $databaseManager->selectmySQL($this->databaseInfo, $tableNames, $columnNames, $this->whereCriterion);
         
         $this->setData($resultQuery);
-           
     }
     
     function setData($resultArrayQuery){
@@ -171,9 +181,30 @@ class Station {
       return $result;  
     }
     
+    function selectForeignData($foreignColumnNameData, $foreignTable, $foreignColumnNameId, $mainColumnId){
+        
+      $databaseManager = new mySQL;  
+      
+      $columns = array($foreignColumnNameData);
+      
+      $tableName = array(
+          self::TABLE,
+          $foreignTable
+          );
+      
+      $whereCriterion = array(
+          self::TABLE.".". $mainColumnId,
+          $foreignTable.".".$foreignColumnNameId,
+          self::COLUMN_ID,
+          $this->id
+      );
+          
+      $result = $databaseManager->selectmySQL($this->databaseInfo, $tableName, $columns, $whereCriterion);
+      return $result;
+    }
+    
     function setArrayData($stationArrayData){
         
-        $data;
         foreach ($stationArrayData as $row) {
             foreach ($row as $dataArray) {
                 $data = $dataArray;
@@ -297,6 +328,13 @@ class Station {
         $stationSupplier = $this->setArrayData($this->stationTable[self::COLUMN_STATIONSUPPLIERID]);
         return $stationSupplier;
     }
+    
+    function getStationSupplierName(){
+        
+        $stationSupplierName;
+        $stationSupplierName = $this->selectForeignData(self::COLUMN_SUPPLIERTABLEBRAND, self::SUPPLIERTABLE, self::COLUMN_SUPPLIERTABLEID, self::COLUMN_STATIONSUPPLIERID);
+        return $this->setArrayData($stationSupplierName);
+    }
 
     function getStationRegionId() {
         
@@ -304,6 +342,13 @@ class Station {
         $this->stationTable[self::COLUMN_STATIONREGIONID] = $this->selectData(self::COLUMN_STATIONREGIONID);
         $stationRegionId = $this->setArrayData($this->stationTable[self::COLUMN_STATIONREGIONID]);
         return $stationRegionId;
+    }
+    
+    function getStationRegionName(){
+        
+        $stationRegionName;
+        $stationRegionName = $this->selectForeignData(self::COLUMN_REGIONTABLENAME, self::REGIONTABLE, self::COLUMN_REGIONTABLEID, self::COLUMN_STATIONREGIONID);
+        return $this->setArrayData($stationRegionName);
     }
 
     function getStationBranchId() {
@@ -387,4 +432,3 @@ class Station {
     }
     
 }
-
