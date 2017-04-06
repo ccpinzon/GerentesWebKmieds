@@ -6,12 +6,18 @@ include_once 'source/Station.php';
 $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
 
 // tarea : traer de login el id de la estacion 
-$idest = 5004;
+$idest = 5005;
 
 $station = new Station($bd,$idest);
 
 $stationName = $station->getStationName();
 $stationSupplierId = $station->getStationSupplierId();
+$stationpay = $station->getStationPay();
+$telf = $station->getStationLandline();
+$telm = $station->getStationMobile();
+$direccion = $station->getStationAddress();
+$descripcion = $station->getStationDescription();
+
 
 
 ?>
@@ -57,12 +63,20 @@ $stationSupplierId = $station->getStationSupplierId();
                 <div class="col s12 m4 l12">
                     <div class="card-panel">
                         <h4 class="header2">Datos de la estacion <?php echo $idest; ?></h4>
+                        <form>
+                        <!-- FILA 1 -->
                         <div class="row">
-                            <form class="col s12">
-                                <div class="input-field col s6">
+                                 <div class="input-field col s6">
+                                <?php 
+                                    $pay = ($stationpay === 0) ? 'Inactiva    
+                                        <i class="material-icons">warning</i>' : 'Activada   
+                                        <i class="material-icons">star</i>' ;
 
-                                    <input id="namestation" value='<?php echo $stationName  ?>' type="text" >
-                                    <label>Nombre de la estacion</label>
+                                 ?>
+                                     <blockquote class="flow-text">
+                                        Estado del pago: <?php echo $pay; ?>
+                                    </blockquote>   
+
 
                                 </div>
                                 <div class="input-field col s6">
@@ -71,6 +85,70 @@ $stationSupplierId = $station->getStationSupplierId();
                                 
                                 </div>
                         </div>
+
+                        <!-- FILA 2 -->
+
+                        <div class="row">
+                            <!-- aqui -->
+
+                            
+                                <div class="input-field col s6">
+
+                                    <input id="namestation" value='<?php echo $stationName  ?>' type="text" >
+                                    <label>Nombre de la estacion</label>
+
+                                </div>
+                               
+                                <?php $telf = ($telf =="NULL") ? "" : $telf; ?>
+                                <div class="input-field col s6">
+
+                                    <input id="telf" value="<?php echo $telf; ?>" type="tel" >
+                                    <label>Telefono Fijo</label>
+                                
+                                </div>
+                        </div>
+
+                        <!-- FILA 3 -->
+
+                        <div class="row">
+                           
+                               <?php $telm = ($telm =="NULL") ? "" : $telm; ?>
+                                <div class="input-field col s6">
+
+                                    <input id="telm" value="<?php echo $telm; ?>" type="tel" >
+                                    <label>Telefono Movil</label>
+                                
+                                </div>
+                                <?php $direccion = ($direccion =="NULL") ? "" : $direccion; ?>
+                                <div class="input-field col s6">
+
+                                   <input id="direccion" value="<?php echo $direccion; ?>" type="text" >
+                                    <label>Direccion</label>
+                                
+                                </div>
+                        </div>
+                        <!-- FILA DESC -->
+                        <?php $descripcion = ($descripcion === "NULL") ? "" : $descripcion;  ?>
+                        <div class="row">
+
+                            <div class="input-field col s12">
+                                <textarea id="descripcion" value="<?php echo $descripcion; ?>" class="materialize-textarea"><?php echo $descripcion; ?></textarea>
+                                <label>Descripcion de la estacion</label>
+                            </div>
+                        </div>
+
+                        <!-- boton editar -->
+
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
+                                        Modificar
+                                        <i class="material-icons right">mode_edit</i>
+                                    </button>
+                                </div>
+                            </div>
+                        <!-- XX -->
                     </form>
                 </div>
             </div>
