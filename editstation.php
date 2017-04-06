@@ -2,11 +2,12 @@
 <?php 
 
 include_once 'source/Station.php';
+include_once 'source/Product.php';
 // conexion bd
 $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
 
 // tarea : traer de login el id de la estacion 
-$idest = 5005;
+$idest = 5004;
 
 $station = new Station($bd,$idest);
 
@@ -17,6 +18,14 @@ $telf = $station->getStationLandline();
 $telm = $station->getStationMobile();
 $direccion = $station->getStationAddress();
 $descripcion = $station->getStationDescription();
+$email = $station->getStationEmail();
+
+//precios
+
+$corriente = new Product($bd,201,$idest);
+$extra = new Product($bd,200,$idest);
+$corriente = new Product($bd,202,$idest);
+$corriente = new Product($bd,203,$idest);
 
 
 
@@ -55,16 +64,20 @@ $descripcion = $station->getStationDescription();
     <!--fin-nav-bar-->
 
 
-    <!--LOGIN-->
+
     <div class="container">
 
         <div id="basic-form" class="section">
             <div class="row">
                 <div class="col s12 m4 l12">
                     <div class="card-panel">
+                    <form action="controllers/fetchstation.php" method="post">
                         <h4 class="header2">Datos de la estacion <?php echo $idest; ?></h4>
-                        <form>
+
+                        <input type="hidden" name="idest" value="<?php echo $idest; ?>"/>
+                        
                         <!-- FILA 1 -->
+
                         <div class="row">
                                  <div class="input-field col s6">
                                 <?php 
@@ -94,7 +107,7 @@ $descripcion = $station->getStationDescription();
                             
                                 <div class="input-field col s6">
 
-                                    <input id="namestation" value='<?php echo $stationName  ?>' type="text" >
+                                    <input id="namestation" name="namestation" value='<?php echo $stationName  ?>' type="text" >
                                     <label>Nombre de la estacion</label>
 
                                 </div>
@@ -102,7 +115,7 @@ $descripcion = $station->getStationDescription();
                                 <?php $telf = ($telf =="NULL") ? "" : $telf; ?>
                                 <div class="input-field col s6">
 
-                                    <input id="telf" value="<?php echo $telf; ?>" type="tel" >
+                                    <input id="telf" name="telf" value="<?php echo $telf; ?>" type="tel" >
                                     <label>Telefono Fijo</label>
                                 
                                 </div>
@@ -115,24 +128,39 @@ $descripcion = $station->getStationDescription();
                                <?php $telm = ($telm =="NULL") ? "" : $telm; ?>
                                 <div class="input-field col s6">
 
-                                    <input id="telm" value="<?php echo $telm; ?>" type="tel" >
+                                    <input id="telm" name="telm" value="<?php echo $telm; ?>" type="tel" >
                                     <label>Telefono Movil</label>
                                 
                                 </div>
                                 <?php $direccion = ($direccion =="NULL") ? "" : $direccion; ?>
                                 <div class="input-field col s6">
 
-                                   <input id="direccion" value="<?php echo $direccion; ?>" type="text" >
+                                   <input id="direccion" name="direccion" value="<?php echo $direccion; ?>" type="text" >
                                     <label>Direccion</label>
                                 
                                 </div>
                         </div>
+
+                        <!-- Fila 4 -->
+
+                        <div class="row">
+                           
+                               <?php $email = ($email =="NULL") ? "" : $email; ?>
+                                <div class="input-field col s6">
+
+                                    <input id="$email" name="email" value="<?php echo $email; ?>" type="email" >
+                                    <label>Correo Electronico</label>
+                                </div>
+                                
+                                
+                        </div>
+
                         <!-- FILA DESC -->
                         <?php $descripcion = ($descripcion === "NULL") ? "" : $descripcion;  ?>
                         <div class="row">
 
                             <div class="input-field col s12">
-                                <textarea id="descripcion" value="<?php echo $descripcion; ?>" class="materialize-textarea"><?php echo $descripcion; ?></textarea>
+                                <textarea id="descripcion" name="descripcion" value="<?php echo $descripcion; ?>" class="materialize-textarea"><?php echo $descripcion; ?></textarea>
                                 <label>Descripcion de la estacion</label>
                             </div>
                         </div>
@@ -158,7 +186,59 @@ $descripcion = $station->getStationDescription();
 </div>
 
 
-    <!-- FIN LOGIN      -->
+ <!-- Precios -->
+
+              <!--    <blockquote class="flow-text">
+                    Precios de la estacion 
+                </blockquote> -->
+
+<div class="container">
+    <div id="basic-form" class="section">
+        <div class="row">
+            <div class="col s12 m4 l12">
+                <div class="card-panel">
+                    <form action="controllers/fetchstation.php" method="post">
+                            <blockquote class="flow-text">
+                                Precios de la estacion 
+                            </blockquote>
+
+                        <input type="hidden" name="idest" value="<?php echo $idest; ?>"/>
+
+                        <!-- FILA 1 -->
+
+                        <div class="row">
+                           <div class="input-field col s6">
+                             <input id="price" value="9999" type="text" 
+                                onkeypress="return event.charCode >= 45 && event.charCode <= 57">
+                                <label>Precio Gasolina Corriente</label>
+
+
+                        </div>
+                        <div class="input-field col s6">
+
+                         
+
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
+</div>
+</div>
+
+
+
+
+
+
+     
+
+
+
+
+
+ <!-- fin Precios -->
 
 <!--footer-->
 <main></main>
