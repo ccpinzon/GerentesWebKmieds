@@ -8,9 +8,9 @@ include_once 'source/Services.php';
 $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
 
 
-$station = new Station($bd,5004);
+$station = new Station($bd,5005);
 
-$extra = new Product($bd,200,5004); 
+$extra = new Product($bd,200,5005); 
 
 $nombreestacion = $station->getStationName();
 
@@ -26,7 +26,7 @@ echo $station->getStationUserId().'<br>';
 echo $station->getStationDescription().'<br>';
 echo $station->getStationRegionId().'<br>';
 
-
+echo $extra->getProductPrice();
 
 
 
