@@ -61,6 +61,8 @@ $email = $station->getStationEmail();
 $stationState = $station->getStationRegionName();
 $stationRegionId = $station->getStationRegionId();
 
+
+
 //echo $stationSupplierBranch;
 
 //precios
@@ -319,7 +321,9 @@ $listaServicios = $servicionEstacion->getServicesList();
         <div class="row">
             <div class="col s12 m4 l12">
                 <div class="card-panel">
-                    <form action="controllers/fetchstationprice.php" method="post">
+                    <form action="controllers/fetchstationservices.php" method="post">
+                     <input type="hidden" name="idmay" value="<?php echo $stationSupplierId; ?>"/>
+                     <input type="hidden" name="iddep" value="<?php echo $stationRegionId; ?>"/>
                         <blockquote class="flow-text">
                         Servicios de la estacion
                         </blockquote>
@@ -338,21 +342,20 @@ $listaServicios = $servicionEstacion->getServicesList();
                             $res = (existe($keyser,$listaServicios));
                             $checked = ($res == true) ? 'checked="checked"' : '';
 
-                            echo '<div class="input-field col m3 s3">
-                                    <p>
-                                      <input type="checkbox" class="filled-in" id="box'.$keyser.'" '.$checked.' />
-                                      <label for="box'.$keyser.'">'.$nomser.'</label>
-                                    </p>
-                           
-                                </div>' ;
+                            echo '  <div class="input-field col m3 s3">
+                                        <p>
+                                          <input type="checkbox" name="service[]" value="'.$keyser.'" class="filled-in" id="box'.$keyser.'" '.$checked.' />
+                                          <label for="box'.$keyser.'">'.$nomser.'</label>
+                                        </p>                           
+                                    </div>' ;
 
 
                         } 
 
 
                         function existe($idserv,$listaServicios){
-                            
-                            foreach ($listaServicios as $row) {
+                            if ($listaServicios != null) {
+                                foreach ($listaServicios as $row) {
                                 
                                 if ($row[1] == $idserv) {
 
@@ -361,6 +364,8 @@ $listaServicios = $servicionEstacion->getServicesList();
                              
                             }
                             return false;
+                            }
+                            
                         }
 
 

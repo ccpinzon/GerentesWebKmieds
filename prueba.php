@@ -22,7 +22,8 @@ $stationRegionId = "BOY";
 $servicionEstacion5099 = new Services($bd, $stationId, $stationSupplierId, $stationRegionId);
 $listaServicios = $servicionEstacion5099->getServicesList();
 
-
+//$servicionEstacion5099->addService(102,"LALAL");
+$servicionEstacion5099->deleteService(102);
 foreach ($listaServicios as $row) {
     
     echo $row[0]." ".$row[1]."<br>";
