@@ -11,6 +11,10 @@ class Services {
     const COLUMN_STATIONSUPPLIERID = "estacion_mayorista_id_mayorista";
     const COLUMN_STATIONREGIONID = "estacion_departamento_id_departamento";
     
+    const SERVICETABLE = "servicio";
+    const COLUMN_SERVICETABLEID = "id_servicio";
+    const COLUMN_SERVICETABLENAME = "nombre_servicio";
+    
     private $databaseInfo = array();
     
     private $servicesList = array();
@@ -20,6 +24,8 @@ class Services {
     private $stationRegionId;
     
     private $whereCriterionGeneral = array(
+        self::TABLE.".".self::COLUMN_ID,
+        self::SERVICETABLE.".".self::COLUMN_SERVICETABLEID,
         self::COLUMN_STATIONID,
         ''
     );
@@ -36,7 +42,7 @@ class Services {
         $this->databaseInfo = $databaseInfo;
         
         $this->stationId = $stationId;
-        $this->whereCriterionGeneral[1] = $stationId;
+        $this->whereCriterionGeneral[3] = $stationId;
         $this->whereCriterionOverride[3] = $stationId;
         $this->stationSupplierId = $stationSupplierId;
         $this->stationRegionId = $stationRegionId;
@@ -50,8 +56,12 @@ class Services {
 
     function updateServicesList(){
         
-        $tableNames = array(self::TABLE);
+        $tableNames = array(
+            self::TABLE,
+            self::SERVICETABLE    
+        );
         $columnNames = array(
+            self::SERVICETABLE.".".self::COLUMN_SERVICETABLENAME,
             self::COLUMN_ID,
             self::COLUMN_DESCRIPTIONSERVICE      
         );
