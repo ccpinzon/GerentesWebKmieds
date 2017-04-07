@@ -6,8 +6,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 } else {
    echo "Bienvenido! " . $_SESSION['username'];
    echo "Esta pagina es solo para usuarios registrados.<br>";
-   echo "<br><a href='login.php'>Login</a>";
-   echo "<br><br><a href='index.html'>Registrarme</a>";
+   echo "<br><a href='index.php'>Login</a>";
+   echo "<br><br><a href='index.php'>Registrarme</a>";
 
 exit;
 }
@@ -18,7 +18,7 @@ if($now > $_SESSION['expire']) {
 session_destroy();
 
 echo "Su sesion a terminado,
-<a href='login.php'>Necesita Hacer Login</a>";
+<a href='index.php'>Necesita Hacer Login</a>";
 exit;
 }
 ?>
@@ -26,9 +26,21 @@ exit;
 
 <?php 
 
-
+//servicios
+include_once 'controllers/config.php';
+$arrayServicios = array(); 
+$sqlservices = "SELECT * FROM servicio";
+$resServices = $conn->query($sqlservices);
+while ($row = mysqli_fetch_assoc($resServices)) {
+    $arrayServicios[$row["id_servicio"]] = $row["nombre_servicio"];
+}
+// foreach ($arrayServicios as $keyser => $nomser) {
+//     echo $keyser.' - '.$nomser.'<br>';
+// }
+// fin servicios
 include_once 'source/Station.php';
 include_once 'source/Product.php';
+include_once 'source/Services.php';
 // conexion bd
 $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
 
@@ -47,6 +59,7 @@ $direccion = $station->getStationAddress();
 $descripcion = $station->getStationDescription();
 $email = $station->getStationEmail();
 $stationState = $station->getStationRegionName();
+$stationRegionId = $station->getStationRegionId();
 
 //echo $stationSupplierBranch;
 
@@ -57,6 +70,13 @@ $extra = new Product($bd,200,$idest);
 $corriente = new Product($bd,201,$idest);
 $diesel = new Product($bd,202,$idest);
 $gnv = new Product($bd,203,$idest);
+
+//servicios
+
+$servicionEstacion= new Services($bd, $idest, $stationSupplierId, $stationRegionId);
+$listaServicios = $servicionEstacion->getServicesList();
+
+ 
 
 
 
@@ -82,12 +102,12 @@ $gnv = new Product($bd,203,$idest);
             <a href="#!" class="brand-logo center">Mi EDS App</a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="login.php"><i class="material-icons left">home</i>Inicio</a></li>
-                <!-- <li><a href="mobile.html"><i class="material-icons right">exit_to_app</i>Cerrar Sesion</a></li> -->
+                <li><a href="editstation.php"><i class="material-icons left">home</i>Inicio</a></li>
+                <li><a href="controllers/logout.php"><i class="material-icons right">exit_to_app</i>Cerrar Sesion</a></li>
             </ul>
             <ul class="side-nav" id="mobile-demo">
-                <li><a href="login.php"><i class="material-icons right">home</i>Inicio</a></li>
-                <!-- <li><a href="mobile.html"><i class="material-icons right">exit_to_app</i>Cerrar Sesion</a></li> -->
+                <li><a href="editstation.php"><i class="material-icons right">home</i>Inicio</a></li>
+                <li><a href="controllers/logout.php"><i class="material-icons right">exit_to_app</i>Cerrar Sesion</a></li>
             </ul>
         </div>
     </nav>
@@ -310,15 +330,41 @@ $gnv = new Product($bd,203,$idest);
 
                         <div class="row">
 
-                        <?php for ($i=0; $i <=25 ; $i++) { 
-                            echo '<div class="input-field col s3">
+                        <?php 
+
+                        // echo var_dump(existe(100,$listaServicios));
+                        foreach ($arrayServicios as $keyser => $nomser) { 
+
+                            $res = (existe($keyser,$listaServicios));
+                            $checked = ($res == true) ? 'checked="checked"' : '';
+
+                            echo '<div class="input-field col m3 s3">
                                     <p>
-                                      <input type="checkbox" class="filled-in" id="filled-in-box'.$i.'" checked="checked" />
-                                      <label for="filled-in-box'.$i.'">Prueba</label>
+                                      <input type="checkbox" class="filled-in" id="box'.$keyser.'" '.$checked.' />
+                                      <label for="box'.$keyser.'">'.$nomser.'</label>
                                     </p>
                            
                                 </div>' ;
-                        } ?>
+
+
+                        } 
+
+
+                        function existe($idserv,$listaServicios){
+                            
+                            foreach ($listaServicios as $row) {
+                                
+                                if ($row[1] == $idserv) {
+
+                                    return true;
+                                }
+                             
+                            }
+                            return false;
+                        }
+
+
+                        ?>
                          
                         
                         </div>

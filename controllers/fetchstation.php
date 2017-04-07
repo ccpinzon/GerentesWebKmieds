@@ -27,6 +27,8 @@ $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root',
 	    $station->setStationAddress($address);
 	    $station->setStationDescription($description);
 	    $station->setStationEmail($email);
+
+	    echo "<meta http-equiv='refresh' content='0;URL=../editstation.php' />";
 	    
 		
 	}
