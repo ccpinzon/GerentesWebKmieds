@@ -25,11 +25,11 @@ $listaServicios = $servicionEstacion5099->getServicesList();
 
 foreach ($listaServicios as $row) {
     
-    foreach ($row as $value) {
-        echo $value." ";
-    }
-    echo "<br>";
+    echo $row[0]."<br>";
+ 
 }
+
+//echo password_hash("1234",PASSWORD_DEFAULT);
 
 // $nombre = $station->getStationName();
 // echo $station->getStationName();
