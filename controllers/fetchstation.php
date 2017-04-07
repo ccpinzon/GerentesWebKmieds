@@ -14,6 +14,10 @@ $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root',
 	    $description = $_POST['descripcion'];
 	    $email = $_POST['email'];
 
+
+	    //sucursal y gremio 
+
+	    
 	    $station = new Station($bd,$idest);
 
 	    //$station->set
@@ -26,6 +30,4 @@ $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root',
 	    
 		
 	}
-
-
  ?>

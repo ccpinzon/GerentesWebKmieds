@@ -15,24 +15,21 @@ $extra = new Product($bd,200,5005);
 $nombreestacion = $station->getStationName();
 
 
-echo $station->getStationName().'<br>';
-echo $station->getStationId().'<br>';
-echo $station->getStationLatitude().'<br>';
-echo $station->getStationLongitude().'<br>';
-echo $station->getStationType().'<br>';
-echo $station->getStationPay().'<br>';
-echo $station->getStationState().'<br>';
-echo $station->getStationUserId().'<br>';
-echo $station->getStationDescription().'<br>';
-echo $station->getStationRegionId().'<br>';
+$stationId = "5094";
+$stationSupplierId = "6";
+$stationRegionId = "BOY";
 
-echo $extra->getProductPrice();
+$servicionEstacion5099 = new Services($bd, $stationId, $stationSupplierId, $stationRegionId);
+$listaServicios = $servicionEstacion5099->getServicesList();
 
 
-
-
-
-
+foreach ($listaServicios as $row) {
+    
+    foreach ($row as $value) {
+        echo $value." ";
+    }
+    echo "<br>";
+}
 
 // $nombre = $station->getStationName();
 // echo $station->getStationName();

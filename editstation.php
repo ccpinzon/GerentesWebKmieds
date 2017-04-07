@@ -7,25 +7,30 @@ include_once 'source/Product.php';
 $bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
 
 // tarea : traer de login el id de la estacion 
-$idest = 5004;
+$idest = 5094;
 
 $station = new Station($bd,$idest);
 
 $stationName = $station->getStationName();
 $stationSupplierId = $station->getStationSupplierId();
+$stationSupplierBranch = $station->getStationSupplierName();
 $stationpay = $station->getStationPay();
 $telf = $station->getStationLandline();
 $telm = $station->getStationMobile();
 $direccion = $station->getStationAddress();
 $descripcion = $station->getStationDescription();
 $email = $station->getStationEmail();
+$stationState = $station->getStationRegionName();
+
+//echo $stationSupplierBranch;
 
 //precios
 
-$corriente = new Product($bd,201,$idest);
+
 $extra = new Product($bd,200,$idest);
-$corriente = new Product($bd,202,$idest);
-$corriente = new Product($bd,203,$idest);
+$corriente = new Product($bd,201,$idest);
+$diesel = new Product($bd,202,$idest);
+$gnv = new Product($bd,203,$idest);
 
 
 
@@ -72,7 +77,7 @@ $corriente = new Product($bd,203,$idest);
                 <div class="col s12 m4 l12">
                     <div class="card-panel">
                     <form action="controllers/fetchstation.php" method="post">
-                        <h4 class="header2">Datos de la estacion <?php echo $idest; ?></h4>
+                        <h4 class="header2">Datos de la estacion <?php echo $idest; ?>, Ubicacion: <?php echo $stationState; ?></h4>
 
                         <input type="hidden" name="idest" value="<?php echo $idest; ?>"/>
                         
@@ -94,7 +99,7 @@ $corriente = new Product($bd,203,$idest);
                                 </div>
                                 <div class="input-field col s6">
 
-                                   <h4><?php echo $stationSupplierId ?></h4>
+                                   <h4><?php echo $stationSupplierBranch ?></h4>
                                 
                                 </div>
                         </div>
@@ -148,8 +153,13 @@ $corriente = new Product($bd,203,$idest);
                                <?php $email = ($email =="NULL") ? "" : $email; ?>
                                 <div class="input-field col s6">
 
-                                    <input id="$email" name="email" value="<?php echo $email; ?>" type="email" >
+                                    <input id="email" name="email" value="<?php echo $email; ?>" type="email" >
                                     <label>Correo Electronico</label>
+                                </div>
+
+                                <div class="input-field col s6">
+                                    
+                                   
                                 </div>
                                 
                                 
@@ -197,7 +207,7 @@ $corriente = new Product($bd,203,$idest);
         <div class="row">
             <div class="col s12 m4 l12">
                 <div class="card-panel">
-                    <form action="controllers/fetchstation.php" method="post">
+                    <form action="controllers/fetchstationprice.php" method="post">
                             <blockquote class="flow-text">
                                 Precios de la estacion 
                             </blockquote>
@@ -208,37 +218,103 @@ $corriente = new Product($bd,203,$idest);
 
                         <div class="row">
                            <div class="input-field col s6">
-                             <input id="price" value="9999" type="text" 
-                                onkeypress="return event.charCode >= 45 && event.charCode <= 57">
+                                <input id="price" name="corriente" value="<?php echo $corriente->getProductPrice(); ?>" type="text" 
+                                    onkeypress="return event.charCode >= 47 && event.charCode <= 57">
                                 <label>Precio Gasolina Corriente</label>
-
-
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="price" name="extra" value="<?php echo $extra->getProductPrice(); ?>" type="text" 
+                                        onkeypress="return event.charCode >= 47 && event.charCode <= 57">
+                                <label>Precio Gasolina Extra</label>
+                            </div>
                         </div>
-                        <div class="input-field col s6">
+                        <!-- FILA 2 -->
+                        <div class="row">
+                           <div class="input-field col s6">
+                                <input id="price" name="diesel" value="<?php echo $diesel->getProductPrice(); ?>" type="text" 
+                                    onkeypress="return event.charCode >= 47 && event.charCode <= 57">
+                                <label>Precio Diesel</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="price" name="gnv" value="<?php echo $gnv->getProductPrice(); ?>" type="text" 
+                                        onkeypress="return event.charCode >= 47 && event.charCode <= 57">
+                                <label>Precio GNV</label>
+                            </div>
+                        </div>
 
-                         
+                        <!-- boton editar -->
 
-                     </div>
-                 </div>
-             </form>
-         </div>
-     </div>
- </div>
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
+                                        Modificar Precios
+                                        <i class="material-icons right">mode_edit</i>
+                                    </button>
+                                </div>
+                            </div>
+                        <!-- XX -->
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-
-
-
-
-
-
-     
-
-
-
 
 
  <!-- fin Precios -->
+
+ <!-- Servicios  -->
+
+
+ <div class="container">
+    <div id="basic-form" class="section">
+        <div class="row">
+            <div class="col s12 m4 l12">
+                <div class="card-panel">
+                    <form action="controllers/fetchstationprice.php" method="post">
+                        <blockquote class="flow-text">
+                        Servicios de la estacion
+                        </blockquote>
+
+                        <input type="hidden" name="idest" value="<?php echo $idest; ?>"/>
+
+                        <!-- FILA 1 -->
+
+                        <div class="row">
+
+                        <?php for ($i=0; $i <=25 ; $i++) { 
+                            echo '<div class="input-field col s3">
+                                    <p>
+                                      <input type="checkbox" class="filled-in" id="filled-in-box'.$i.'" checked="checked" />
+                                      <label for="filled-in-box'.$i.'">Prueba</label>
+                                    </p>
+                           
+                                </div>' ;
+                        } ?>
+                         
+                        
+                        </div>
+
+                        <!-- boton editar -->
+
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
+                                        Modificar Servicios
+                                        <i class="material-icons right">mode_edit</i>
+                                    </button>
+                                </div>
+                            </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 
 <!--footer-->
 <main></main>
