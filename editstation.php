@@ -337,7 +337,7 @@ $listaServicios = $servicionEstacion->getServicesList();
                         <?php 
 
                         // echo var_dump(existe(100,$listaServicios));
-                        echo var_dump($arrayServicios);
+                       
                         foreach ($arrayServicios as $keyser => $nomser) { 
 
                             $res = (existe($keyser,$listaServicios));
