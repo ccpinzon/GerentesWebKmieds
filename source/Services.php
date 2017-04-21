@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * Esta clase se adaptó a la version 4 de la base de datos.
+ */
+
 include_once 'mySQL.php';
 
 class Services {
@@ -8,8 +12,6 @@ class Services {
     const COLUMN_ID = "servicio_id_servicio";
     const COLUMN_STATIONID = "estacion_id_estacion";
     const COLUMN_DESCRIPTIONSERVICE = "descripcion_servicio_has_estacion";
-    const COLUMN_STATIONSUPPLIERID = "estacion_mayorista_id_mayorista";
-    const COLUMN_STATIONREGIONID = "estacion_departamento_id_departamento";
     
     const SERVICETABLE = "servicio";
     const COLUMN_SERVICETABLEID = "id_servicio";
@@ -20,8 +22,6 @@ class Services {
     private $servicesList = array();
     
     private $stationId;
-    private $stationSupplierId;
-    private $stationRegionId;
     
     private $whereCriterionGeneral = array(
         self::TABLE.".".self::COLUMN_ID,
@@ -37,23 +37,19 @@ class Services {
         ''
     );
     
-    function __construct($databaseInfo, $stationId, $stationSupplierId, $stationRegionId) {
+    function __construct($databaseInfo, $stationId) {
         
         $this->databaseInfo = $databaseInfo;
         
         $this->stationId = $stationId;
         $this->whereCriterionGeneral[3] = $stationId;
         $this->whereCriterionOverride[3] = $stationId;
-        $this->stationSupplierId = $stationSupplierId;
-        $this->stationRegionId = $stationRegionId;
         
         $this->updateServicesList();
     }
-
     function getServicesList() {
         return $this->servicesList;
     }
-
     function updateServicesList(){
         
         $tableNames = array(
@@ -79,16 +75,12 @@ class Services {
             self::COLUMN_ID,
             self::COLUMN_STATIONID,
             self::COLUMN_DESCRIPTIONSERVICE,
-            self::COLUMN_STATIONSUPPLIERID,
-            self::COLUMN_STATIONREGIONID
         );
         
         $values = array(
             $serviceId,
             $this->stationId,
-            '"'.$serviceDescription.'"',
-            $this->stationSupplierId,
-            '"'.$this->stationRegionId.'"'
+            '"'.$serviceDescription.'"'
         );
         
         $databaseManager = new mySQL;
@@ -106,5 +98,4 @@ class Services {
         $resultQuery = $databaseManager->deletemySQL($this->databaseInfo, self::TABLE, $this->whereCriterionOverride);
         return $resultQuery;
     }
-    
 }
