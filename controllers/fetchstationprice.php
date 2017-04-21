@@ -2,7 +2,7 @@
 include_once '../source/Product.php';
 if (isset($_POST)) {
 
-	$bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
+	$bd = array('hostname' => 'localhost','username' => 'juan','password' => '123','name' => 'juan_miedsV4');
 
 	$idest = $_POST["idest"];
 	$pricecorriente = $_POST["corriente"];

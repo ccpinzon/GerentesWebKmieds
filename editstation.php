@@ -42,7 +42,7 @@ include_once 'source/Station.php';
 include_once 'source/Product.php';
 include_once 'source/Services.php';
 // conexion bd
-$bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
+$bd = array('hostname' => 'localhost','username' => 'juan','password' => '123','name' => 'juan_miedsV4');
 
 // tarea : traer de login el id de la estacion 
 $idest = $_SESSION['id_estacion'];
@@ -337,6 +337,7 @@ $listaServicios = $servicionEstacion->getServicesList();
                         <?php 
 
                         // echo var_dump(existe(100,$listaServicios));
+                        echo var_dump($arrayServicios);
                         foreach ($arrayServicios as $keyser => $nomser) { 
 
                             $res = (existe($keyser,$listaServicios));

@@ -16,9 +16,10 @@ $password = $_POST['password'];
 
 $sql = "SELECT * FROM estacion e
 		INNER JOIN usuario u ON u.id_usuario= e.usuario_id_usuario 
-		WHERE u.id_usuario = '$username'";
+		WHERE  u.nombre_usuario = '$username'";
 
-$result = $conn->query($sql);
+$result = $conn->query($sql) or die(mysql_error());
+echo var_dump($result);
 if ($result->num_rows > 0) {     
  }
  $row = $result->fetch_array(MYSQLI_ASSOC);
@@ -38,7 +39,7 @@ if ($result->num_rows > 0) {
 	  echo "<meta http-equiv='refresh' content='0;URL=../editstation.php' />";
 
  } else { 
-   echo "Username o Password estan incorrectos.";
+  echo "Username o Password estan incorrectos.";
 
    echo "<br><a href='../index.php'>Volver a Intentarlo</a>";
  }

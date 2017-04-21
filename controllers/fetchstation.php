@@ -4,7 +4,8 @@ if(isset($_POST)){
 		// id de la estacion
 // conexion bd
 
-$bd = array('hostname' => 'localhost','username' => 'root','password' => 'root','name' => 'juan_miedsV3');
+
+	$bd = array('hostname' => 'localhost','username' => 'juan','password' => '123','name' => 'juan_miedsV4');
 
 	    $idest = $_POST['idest']; 
 	    $namestation = $_POST['namestation'];
