@@ -3,7 +3,7 @@
 include_once '../source/Services.php';
 if(isset($_POST)){
 
-	$bd = array('hostname' => 'localhost','username' => 'juan','password' => '123','name' => 'juan_miedsV4');
+$bd = array('hostname' => 'localhost','username' => 'juan','password' => '123','name' => 'juan_miedsV4');
 
 	$idest = $_POST['idest']; 
 	$servicebox = $_POST['service'];
@@ -17,43 +17,40 @@ $listaServicios = $servicionEstacion->getServicesList();
  // }
 
 // busca en la bd los servicios que tiene la estacion i
-if ($servicebox === NULL) {
-	echo "<meta http-equiv='refresh' content='0;URL=../editstation.php' />";
-}else {
+
 
 	function existe($idserv,$listaServicios){
-	if ($listaServicios != null) {	
-		foreach ($listaServicios as $row) {
-			if ($row[1] == $idserv) {
-				return true;
+		if ($listaServicios != null) {	
+			foreach ($listaServicios as $row) {
+				if ($row[1] == $idserv) {
+					return true;
+				}
 			}
+			return false;
 		}
 		return false;
 	}
-	return false;
-	}
-
+//echo var_dump($listaServicios);
 	if ($listaServicios != null ) {
 		$status;
-	foreach ($listaServicios as $row) {
-		
-		foreach ($servicebox as $rowBox) {
-			if ($row[1] == $rowBox) {
-				$status = true;
-				break;
+		foreach ($listaServicios as $row) {
+
+			foreach ($servicebox as $rowBox) {
+				if ($row[1] == $rowBox) {
+					$status = true;
+					break;
+				}
+				$status = false;
 			}
-			$status = false;
+
+			if ($status == true) {
+
+			}else{
+				$statusDelete = $servicionEstacion->deleteService($row[1]);
+			}
 		}
-
-		if ($status == true) {
-			
-		}else{
-			$statusDelete = $servicionEstacion->deleteService($row[1]);
-		}
-
-
 	}
-	}
+
 	
 
 
@@ -77,5 +74,5 @@ if ($servicebox === NULL) {
 	
 
 
-}
+
  ?>
